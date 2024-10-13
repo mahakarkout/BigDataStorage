@@ -1,5 +1,6 @@
 package main.java.com.mq.dbproject.interfaces;
 
+
 public interface ISqlDatabase {
-    void query(String query);
+    void query(String sqlQuery); // Process a SQL-like command
 }

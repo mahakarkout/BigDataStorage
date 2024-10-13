@@ -1,13 +1,22 @@
 package main.java.com.mq.dbproject.utils;
 
 import java.io.*;
+import java.util.HashMap;
 import java.util.Map;
 
+
 public class FileUtils {
-    public static void saveToFile(Map<String, String> store, String fileName) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
-            for (Map.Entry<String, String> entry : store.entrySet()) {
-                writer.write(entry.getKey() + "=" + entry.getValue());
+
+    // Save a table (map of rows) to a file
+    public static void saveTableToFile(Map<String, Map<String, String>> rows, String fileName) {
+        File directory = new File("db_data");
+        if (!directory.exists()) {
+            directory.mkdir(); // Create db_data directory if it doesn't exist
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("db_data/" + fileName))) {
+            for (Map.Entry<String, Map<String, String>> entry : rows.entrySet()) {
+                writer.write(entry.getKey() + " : " + entry.getValue().toString().replaceAll(", ", ",").replaceAll("[{}]", ""));
                 writer.newLine();
             }
         } catch (IOException e) {
@@ -15,17 +24,38 @@ public class FileUtils {
         }
     }
 
-    public static void loadFromFile(Map<String, String> store, String fileName) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+    // Load a table from a file
+    public static void loadTableFromFile(Map<String, Map<String, String>> rows, String fileName) {
+        File directory = new File("db_data");
+        if (!directory.exists()) {
+            System.out.println("No existing database directory found, creating new one.");
+            directory.mkdir(); // Create db_data directory if it doesn't exist
+        }
+
+        File file = new File("db_data/" + fileName);
+        if (!file.exists()) {
+            System.out.println("No existing table file found for " + fileName);
+            return;
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] parts = line.split("=");
-                if (parts.length == 2) {
-                    store.put(parts[0], parts[1]);
+                String[] keyValue = line.split(" : ");
+                if (keyValue.length == 2) {
+                    String key = keyValue[0];
+                    String[] keyValues = keyValue[1].split(",");
+                    Map<String, String> row = new HashMap<>();
+                    for (String keyValuePair : keyValues) {
+                        String[] entry = keyValuePair.split("=");
+                        if (entry.length == 2) {
+                            row.put(entry[0], entry[1]);
+                        }
+                    }
+                    rows.put(key, row);
                 }
             }
         } catch (IOException e) {
-            // File might not exist yet, that’s okay
             e.printStackTrace();
         }
     }
