@@ -13,7 +13,7 @@ This project implements a database that simulates relational database functional
   - Select and display rows from tables.
   
 
-## The project goes through 4 stages, this Implementation represent only the first two stages:
+## The project goes through 5 stages, this Implementation represent only the first two stages:
     lab 1: interfaces for your db, Interfaces for classes, this is how we define the skeleton of our program. 
     lab 2: implementation of interfaces. At this stage we should get a locally working db.
 
