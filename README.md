@@ -1,9 +1,25 @@
-In this project We’re creating a simple database project, starting simple with a Key-Value store and eventually extending it to SQL-like functionality.
+# Simple File-Based Relational-Like Database
 
-The project will be implementd through 4 stages:
+## Overview
+This project implements a simple file-based database that simulates relational database functionality. It allows for the creation, management, and persistence of tables using a flat file storage system. The database supports basic operations such as inserting, updating, selecting, and deleting rows within tables.
 
-        1- Lab 1: Defining the interfaces and implemente a basic version of a Key-Value Database (IDataBase).
-      
-        2- Lab 2: Begin the implementation of the interfaces, creating a locally working database that persists data.
+## Features
+- **Table Management**: Create and drop tables dynamically.
+- **Data Persistence**: Save tables to disk in text files, ensuring data is retained across application runs.
+- **Basic SQL-like Operations**: 
+  - Insert rows into tables.
+  - Update existing rows.
+  - Delete rows from tables.
+  - Select and display rows from tables.
+  
 
-The next two stages will be clarified and implemented later :) 
+## Getting Started
+### Prerequisites
+- **Java Development Kit (JDK)** 11 or higher.
+- A Java IDE (e.g., IntelliJ IDEA, VS Code) for development.
+
+### Installation
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd <repository-directory>
