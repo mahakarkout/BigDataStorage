@@ -18,6 +18,7 @@ This project implements a database that simulates relational database functional
     lab 2: implementation of interfaces. At this stage we should get a locally working db.
 
 Here are the current outputs for these stages:
+
       1- Testing creating table and inserst rows   
       ![Screenshot 2024-10-13 193849](https://github.com/user-attachments/assets/b38a5f75-943d-4c7e-bbf4-c373a38acf13)
 
