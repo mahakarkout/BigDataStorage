@@ -1,6 +1,6 @@
 In this project We’re creating a simple database project, starting simple with a Key-Value store and eventually extending it to SQL-like functionality.
 
-The projects will be implementd through 4 stages:
+The project will be implementd through 4 stages:
 
         1- Lab 1: Defining the interfaces and implemente a basic version of a Key-Value Database (IDataBase).
       
