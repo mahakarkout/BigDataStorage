@@ -23,3 +23,8 @@ This project implements a simple file-based database that simulates relational d
    ```bash
    git clone <repository-url>
    cd <repository-directory>
+   
+![Screenshot 2024-10-13 193849](https://github.com/user-attachments/assets/b38a5f75-943d-4c7e-bbf4-c373a38acf13)
+![Screenshot 2024-10-13 193828](https://github.com/user-attachments/assets/332f88de-809c-4f7c-84a5-2542c7cf50d1)
+![Screenshot 2024-10-13 193807](https://github.com/user-attachments/assets/fd85d7a7-517a-4941-b6e0-d5e09f2c988f)
+![Screenshot 2024-10-13 193904](https://github.com/user-attachments/assets/b04946ef-2833-4e8e-8104-192fdaf1b6ee)
