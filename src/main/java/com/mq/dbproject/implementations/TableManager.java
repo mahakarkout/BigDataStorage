@@ -1,30 +1,33 @@
 package main.java.com.mq.dbproject.implementations;
 
+import main.java.com.mq.dbproject.interfaces.ITable;
+import main.java.com.mq.dbproject.interfaces.ITableManager;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class TableManager {
-    private Map<String, Table> tables;
+public class TableManager implements ITableManager {
+    private Map<String, ITable> tables;
 
     public TableManager() {
         tables = new HashMap<>();
         loadExistingTables(); // Load existing tables from disk
     }
 
-    // Create a new table
-    public void createTable(String tableName) {
+    @Override
+    public void createTable(String tableName, List<String> schema) {
         if (tables.containsKey(tableName)) {
             System.out.println("Table " + tableName + " already exists.");
             return;
         }
-        Table newTable = new Table(tableName);
+        ITable newTable = new Table(tableName, schema); // Note we create using Table implementation but store as ITable
         tables.put(tableName, newTable);
-        System.out.println("Table " + tableName + " created.");
+        System.out.println("Table " + tableName + " created with schema: " + schema);
     }
 
-    // Drop an existing table
+    @Override
     public void dropTable(String tableName) {
         if (tables.containsKey(tableName)) {
             tables.remove(tableName);
@@ -38,12 +41,12 @@ public class TableManager {
         }
     }
 
-    // Get a table to perform operations on it
-    public Table getTable(String tableName) {
+    @Override
+    public ITable getTable(String tableName) {
         return tables.get(tableName);
     }
 
-    // List all available tables
+    @Override
     public void listTables() {
         System.out.println("Available tables:");
         for (String tableName : tables.keySet()) {
@@ -59,7 +62,7 @@ public class TableManager {
             if (tableFiles != null) {
                 for (File tableFile : tableFiles) {
                     String tableName = tableFile.getName().replace(".txt", "");
-                    Table table = new Table(tableName);
+                    ITable table = new Table(tableName, List.of("id", "name", "email")); // Placeholder schema
                     tables.put(tableName, table);
                     System.out.println("Loaded table: " + tableName);
                 }

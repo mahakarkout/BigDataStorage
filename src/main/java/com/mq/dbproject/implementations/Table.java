@@ -1,20 +1,22 @@
 package main.java.com.mq.dbproject.implementations;
 
-
 import main.java.com.mq.dbproject.interfaces.ITable;
 import main.java.com.mq.dbproject.utils.FileUtils;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Table implements ITable {
     private String tableName;
     private Map<String, Map<String, String>> rows; // Key is row key, value is a map representing columns
+    private List<String> schema; // Schema for the table, defines expected columns
 
-    public Table(String tableName) {
+    public Table(String tableName, List<String> schema) {
         this.tableName = tableName;
+        this.schema = schema;
         this.rows = new HashMap<>();
-        loadFromFile(); // Load data from disk
+        loadFromFile(); // Load existing data from disk
     }
 
     @Override
@@ -24,6 +26,12 @@ public class Table implements ITable {
             System.out.println("Primary key 'id' is required.");
             return;
         }
+
+        if (!validateRow(row)) {
+            System.out.println("Invalid row. The row must contain all columns specified in the schema: " + schema);
+            return;
+        }
+
         rows.put(primaryKey, row);
         saveToFile();
     }
@@ -36,6 +44,10 @@ public class Table implements ITable {
     @Override
     public void update(String key, Map<String, String> newRow) {
         if (rows.containsKey(key)) {
+            if (!validateRow(newRow)) {
+                System.out.println("Invalid row. The row must contain all columns specified in the schema: " + schema);
+                return;
+            }
             rows.put(key, newRow);
             saveToFile();
         } else {
@@ -52,17 +64,29 @@ public class Table implements ITable {
     @Override
     public void displayTable() {
         System.out.println("Table: " + tableName);
+        System.out.println("Schema: " + schema);
         for (Map.Entry<String, Map<String, String>> entry : rows.entrySet()) {
             System.out.println("Key: " + entry.getKey() + ", Row: " + entry.getValue());
         }
     }
 
-    // Save all rows to file
+    // Helper methods for validation and file handling
+    private boolean validateRow(Map<String, String> row) {
+        if (row.size() != schema.size()) {
+            return false;
+        }
+        for (String column : schema) {
+            if (!row.containsKey(column)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private void saveToFile() {
         FileUtils.saveTableToFile(rows, tableName + ".txt");
     }
 
-    // Load rows from file
     private void loadFromFile() {
         FileUtils.loadTableFromFile(rows, tableName + ".txt");
     }
