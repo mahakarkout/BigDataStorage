@@ -56,9 +56,16 @@ public class Table implements ITable {
     }
 
     @Override
-    public void delete(String key) {
-        rows.remove(key);
-        saveToFile();
+    public boolean delete(String key) {
+        if (rows.containsKey(key)) {
+            rows.remove(key);
+            saveToFile();
+            System.out.println("Row with key '" + key + "' has been successfully deleted.");
+            return true; // Return true if the deletion was successful
+        } else {
+            System.out.println("Error: Row with key '" + key + "' does not exist.");
+            return false; // Return false if the key was not found
+        }
     }
 
     @Override

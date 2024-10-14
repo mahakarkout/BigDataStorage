@@ -6,6 +6,6 @@ public interface ITable {
     void insert(Map<String, String> row);
     Map<String, String> select(String key);
     void update(String key, Map<String, String> newRow);
-    void delete(String key);
+    boolean delete(String key); //return type to boolean to indicate success or failure
     void displayTable();
 }
