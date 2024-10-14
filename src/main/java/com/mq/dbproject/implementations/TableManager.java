@@ -17,14 +17,14 @@ public class TableManager implements ITableManager {
     }
 
     @Override
-    public void createTable(String tableName, List<String> schema) {
+    public void createTable(String tableName, List<String> cols) {
         if (tables.containsKey(tableName)) {
             System.out.println("Table " + tableName + " already exists.");
             return;
         }
-        ITable newTable = new Table(tableName, schema); // Note we create using Table implementation but store as ITable
+        ITable newTable = new Table(tableName, cols); // Note we create using Table implementation but store as ITable
         tables.put(tableName, newTable);
-        System.out.println("Table " + tableName + " created with schema: " + schema);
+        System.out.println("Table " + tableName + " created with columns: " + cols);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class TableManager implements ITableManager {
             if (tableFiles != null) {
                 for (File tableFile : tableFiles) {
                     String tableName = tableFile.getName().replace(".txt", "");
-                    ITable table = new Table(tableName, List.of("id", "name", "email")); // Placeholder schema
+                    ITable table = new Table(tableName, List.of("id", "name", "email"));
                     tables.put(tableName, table);
                     System.out.println("Loaded table: " + tableName);
                 }
