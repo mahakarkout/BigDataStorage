@@ -7,5 +7,5 @@ public interface ITable {
     Map<String, String> select(String key);
     void update(String key, Map<String, String> newRow);
     void delete(String key);
-    void displayTable(); // Print out the current rows of the table
+    void displayTable();
 }

@@ -9,14 +9,14 @@ import java.util.Map;
 
 public class Table implements ITable {
     private String tableName;
-    private Map<String, Map<String, String>> rows; // Key is row key, value is a map representing columns
-    private List<String> schema; // Schema for the table, defines expected columns
+    private Map<String, Map<String, String>> rows;
+    private List<String> cols;
 
-    public Table(String tableName, List<String> schema) {
+    public Table(String tableName, List<String> cols) {
         this.tableName = tableName;
-        this.schema = schema;
+        this.cols = cols;
         this.rows = new HashMap<>();
-        loadFromFile(); // Load existing data from disk
+        loadFromFile();
     }
 
     @Override
@@ -28,7 +28,7 @@ public class Table implements ITable {
         }
 
         if (!validateRow(row)) {
-            System.out.println("Invalid row. The row must contain all columns specified in the schema: " + schema);
+            System.out.println("Invalid row. The row must contain all columns specified: " + cols);
             return;
         }
 
@@ -45,7 +45,7 @@ public class Table implements ITable {
     public void update(String key, Map<String, String> newRow) {
         if (rows.containsKey(key)) {
             if (!validateRow(newRow)) {
-                System.out.println("Invalid row. The row must contain all columns specified in the schema: " + schema);
+                System.out.println("Invalid row. The row must contain all columns specified : " + cols);
                 return;
             }
             rows.put(key, newRow);
@@ -64,7 +64,7 @@ public class Table implements ITable {
     @Override
     public void displayTable() {
         System.out.println("Table: " + tableName);
-        System.out.println("Schema: " + schema);
+        System.out.println("Columns: " + cols);
         for (Map.Entry<String, Map<String, String>> entry : rows.entrySet()) {
             System.out.println("Key: " + entry.getKey() + ", Row: " + entry.getValue());
         }
@@ -72,10 +72,10 @@ public class Table implements ITable {
 
     // Helper methods for validation and file handling
     private boolean validateRow(Map<String, String> row) {
-        if (row.size() != schema.size()) {
+        if (row.size() != cols.size()) {
             return false;
         }
-        for (String column : schema) {
+        for (String column : cols) {
             if (!row.containsKey(column)) {
                 return false;
             }

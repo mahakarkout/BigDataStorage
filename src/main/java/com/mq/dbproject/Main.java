@@ -12,38 +12,40 @@ import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
-    
-                /*------------------------------Testing creating & inserting data in the disk----------------------------------*/
+
+        /*------------------------------Testing creating & inserting data in the disk----------------------------------*/
 
 
         ITableManager tableManager = new TableManager();
 
-        // Step 1: Define the schema for the "users" table
-        List<String> userSchema = Arrays.asList("id", "name", "email");
+        String tableName="users";
 
-        // Step 2: Create a new table called "users" with the defined schema
-        tableManager.createTable("users", userSchema);
+        // Define the columns for the table
+        List<String> tableCols = Arrays.asList("id", "name", "email");
 
-        // Step 3: Get the "users" table to perform operations
-        ITable usersTable = tableManager.getTable("users");
+        // Create a new table
+        tableManager.createTable(tableName, tableCols);
 
-        // Step 4: Insert some rows into the table
-        if (usersTable != null) {
+        // fetch the table
+        ITable newTable = tableManager.getTable(tableName);
+
+        // Insert some rows
+        if (newTable != null) {
             Map<String, String> row1 = new HashMap<>();
             row1.put("id", "1");
             row1.put("name", "Maha");
             row1.put("email", "maha@gmail.com");
-            usersTable.insert(row1);
+            newTable.insert(row1);
 
-            // Attempt to insert an invalid row (missing a column)
             Map<String, String> row2 = new HashMap<>();
             row2.put("id", "2");
             row2.put("name", "Deeb");
             row2.put("email", "Deeb@gmail.com");
-            usersTable.insert(row2); // This should fail since "email" is missing
+            newTable.insert(row2);
 
-            // Display the table to check the data
-            usersTable.displayTable();
+
+            // Display the data
+            newTable.displayTable();
 
 
 
